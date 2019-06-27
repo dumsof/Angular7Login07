@@ -18,5 +18,8 @@ export class RegistroComponent implements OnInit {
     this.usuario.email = 'dun34@hotmail.com';
   }
 
-
+  onSubmit() {
+    console.log('formulario enviado');
+    console.log(this.usuario);
+  }
 }
