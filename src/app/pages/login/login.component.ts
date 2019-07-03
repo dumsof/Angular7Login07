@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LoginModels } from '../../models/login.model';
 import { UsuarioModels } from '../../models/usuario.model';
 
 @Component({
