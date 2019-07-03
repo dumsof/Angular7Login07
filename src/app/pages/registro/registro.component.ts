@@ -27,6 +27,9 @@ export class RegistroComponent implements OnInit {
     }
     this.auth.nuevoUsuario(this.usuario).subscribe(respuesta => {
       console.log(respuesta);
+      console.log('Información registrada con exito.');
+    }, (erores) => {
+      console.log('Hay un error: ' + erores.error.error.message);
     });
   }
 }
