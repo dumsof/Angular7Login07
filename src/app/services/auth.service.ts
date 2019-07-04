@@ -14,8 +14,9 @@ export class AuthService {
   constructor(private http: HttpClient) { this.leerToken(); }
 
   logout() {
-
+    localStorage.removeItem('token');
   }
+
   login(usuario: UsuarioModels) {
     const authDate = {
       email: usuario.email,
@@ -46,6 +47,13 @@ export class AuthService {
     this.userToken = idToken;
     localStorage.setItem('token', idToken);
 
+    let hoy = new Date();
+    /* 3600, esto equivale a 1 hora que es el tiempo de expiracion que envia el servicio,
+    se trabaja con una constante debido que siempre envia un 3600 una hora */
+    hoy.setSeconds(3600);
+    /* almacenar la fecha a futuro la cual expira el token depues que se creo seria una hora */
+    localStorage.setItem('expiraToken', hoy.getTime().toString());
+
   }
 
   leerToken() {
@@ -58,7 +66,20 @@ export class AuthService {
   }
 
   estaAutenticado(): boolean {
-    return this.userToken.length > 2;
+
+    if (this.userToken.length < 2) {
+      return false;
+    }
+    /* se obtiene la fecha en la cual expira el token y se realiza la validacion para saber si este expiro */
+    const expira = Number(localStorage.getItem('expiraToken'));
+    const fechaExpira = new Date();
+    fechaExpira.setTime(expira);
+
+    if (fechaExpira > new Date()) {
+      return true;
+    }
+
+    return false;
   }
 }
 
